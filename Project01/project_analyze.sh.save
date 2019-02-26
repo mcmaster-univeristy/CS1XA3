@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [ $# -eq 1 ]
+then
+   
+   if [ $1 -eq 1 ]
+   then
+	grep -r --exclude="todo.log" "#TODO" > ~/CS1XA3/Project01/todo.log
+   elif [ $1 -eq 2 ]
+   then 
+	echo "Compile Error log"
+   elif [ $1 -eq 3 ]
+   then
+	echo "Merge Log"
+   elif [ $1 -eq 4 ]
+   then 
+	echo "File Type Count"
+   elif [ $1 -eq 5 ]
+   then 
+	echo "Delete Temporary Files"
+   elif [ $1 -eq 6 ]
+   then
+	echo "Find Last Working File"
+   else
+	echo "Enter the wrong input"
+	echo "The input should be the number from 1 to 6"
+   fi		
+
+else
+   echo "Incorrect number of the argument
+list1=$(find ~/CS1XA3 -name *.py)
+list2=$(find ~/CS1XA3 -name *.hs)
+
+for pyfi in $list1;do
+   cmp=$((python $pyfi))
+   if[[$cmp == *syntax errors*]];then
+	echo $pyfi >> compile_fail.log
+   fi
+done
+
+for hsfi in $list2;do
+   cmp=$((ghci $hsfi))
+   if[[$cmp == *syntax errors*]];then
+	echo $hsfi >> compile_fail.log
+   fi
+done
+
+
+mlist=$((git log --oneline | grep 'merge' | cut -d " " -f1))
+for var in $mlist;do
+ echo "$var" >> merge.log
+done
+
+
